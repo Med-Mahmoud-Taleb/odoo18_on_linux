@@ -3,6 +3,13 @@
 
 Dependency odoo18 :
 sudo apt-get install python3.12-dev build-essential libjpeg-dev libpq-dev libjpeg8-dev libxml2-dev libssl-dev libffi-dev libmysqlclient-dev libxslt1-dev zlib1g-dev libsasl2-dev libldap2-dev liblcms2-dev
+Gemini :
+sudo apt update && sudo apt install -y \
+python3-dev python3.11-dev build-essential libpq-dev \
+libxml2-dev libxslt1-dev zlib1g-dev libsasl2-dev \
+libldap2-dev libssl-dev libffi-dev libjpeg-dev \
+liblcms2-dev libwebp-dev libharfbuzz-dev \
+libfribidi-dev libgraphviz-dev node-less
 
 -- Python ------------
 sudo add-apt-repository ppa:deadsnakes/ppa 
@@ -37,3 +44,29 @@ sudo useradd -m -U -r -d /opt/odoo18 -s /bin/bash odoo18
 
 --- Code source -----
 tar -xzvf odoo_18.0+e.latest.tar.gz
+install library odoo18 :
+
+- file conf
+sudo chown odoo18: /etc/odoo18.conf
+sudo chmod 640 /etc/odoo18.conf
+ Create Service File
+
+[Unit]
+Description=odoo18
+
+[Service]
+Type=simple
+SyslogIdentifier=odoo18
+PermissionsStartOnly=true
+User=odoo18
+Group=odoo18
+ExecStart=/opt/odoo18/odoo18-venv/bin/python3 /opt/odoo18/odoo18/odoo-bin -c /etc/odoo18.conf
+StandardOutput=journal+console
+
+[Install]
+WantedBy=multi-user.target
+sudo systemctl daemon-reload
+sudo systemctl enable --now odoo18
+
+  VG        #PV #LV #SN Attr   VSize    VFree   
+  ubuntu-vg   1   1   0 wz--n- <891.20g <791.20g
