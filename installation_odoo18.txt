@@ -1,2 +1,39 @@
+
+
+
 Dependency odoo18 :
 sudo apt-get install python3.12-dev build-essential libjpeg-dev libpq-dev libjpeg8-dev libxml2-dev libssl-dev libffi-dev libmysqlclient-dev libxslt1-dev zlib1g-dev libsasl2-dev libldap2-dev liblcms2-dev
+
+-- Python ------------
+sudo add-apt-repository ppa:deadsnakes/ppa 
+sudo apt-get update
+apt list | grep python3.12
+sudo apt install python3.11-venv
+------Install Web Dependencies---------
+The next step involves installing the necessary web dependencies.
+
+sudo apt-get install -y npm
+sudo ln -s /usr/bin/nodejs/usr/bin/node 
+sudo npm install -g less less-plugin-clean-css 
+sudo apt-get install -y node-less
+sudo npm install -g rtlcss
+---------------------------------------
+-------Wkhmtltopdf 12.6:
+wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb
+sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2_amd64.deb
+Si erreur:
+sudo apt --fix-broken install
+wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb
+sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2_amd64.deb
+sudo apt install xfonts-75dpi xfonts-base
+----------------------------------------
+Installion PostgreSQl
+sudo apt install postgresql postgresql-client
+User base de donnee
+sudo su - postgres createuser --createdb --username postgres --no-createrole --no-superuser --pwprompt odoo18
+ALTER USER odoo18 WITH SUPERUSER PASSWORD 'votre_nouveau_mot_de_passe';
+User odoo:
+sudo useradd -m -U -r -d /opt/odoo18 -s /bin/bash odoo18
+
+--- Code source -----
+tar -xzvf odoo_18.0+e.latest.tar.gz
