@@ -1,24 +1,72 @@
-Postgres : 
+-----------Dependency odoo19 -----------:
+sudo apt-get install -y python3-dev libxml2-dev libxslt1-dev zlib1g-dev libsasl2-dev libldap2-dev build-essential libssl-dev libffi-dev libmysqlclient-dev libjpeg-dev libpq-dev libjpeg8-dev liblcms2-dev libblas-dev libatlas-base-dev
+-----------------------------------------------------------------------------
+
+-- Intallation Python ------------
+sudo apt update
+sudo apt install software-properties-common
+sudo add-apt-repository ppa:deadsnakes/ppa 
+sudo apt install python3.12 python3.12-venv
+
+------Intallation Web Dependencies---------
+sudo apt install -y npm
+sudo ln -s /usr/bin/nodejs/usr/bin/node 
+sudo npm install -g less less-plugin-clean-css 
+sudo apt install -y node-less
+sudo npm install -g rtlcss
+---------------------------------------
+----------- Intallation Postgres ----------------------: 
 Installion PostgreSQl
 sudo apt install postgresql postgresql-client
 User base de donnee
-sudo su - postgres createuser --createdb --username postgres --no-createrole --no-superuser --pwprompt odoo18
-ALTER USER odoo18 WITH SUPERUSER PASSWORD 'votre_nouveau_mot_de_passe';
+sudo su - postgres createuser --createdb --username postgres --no-createrole --no-superuser --pwprompt odoo19
+ALTER USER odoo19 WITH SUPERUSER PASSWORD 'votre_nouveau_mot_de_passe';
 Give prevelege :
-ALTER USER odoo18 WITH SUPERUSER;
+ALTER USER odoo19 WITH SUPERUSER;
+------------------------------------------------------------------
+----------------------Wkhmtltopdf 12.6----------------------:
 
-
-Create a System User for Odoo
+wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb
+sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2_amd64.deb
+Si erreur:
+sudo apt --fix-broken install
+wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb
+sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2_amd64.deb
+sudo apt install xfonts-75dpi xfonts-base
+------------------------------------------------------------------
+-----------Create a System User for Odoo-----------
 sudo useradd -m -U -r -d /opt/odoo19 -s /bin/bash odoo19
-
+---------------------------------
 --- Code source entrprise -----
 tar -xzvf odoo_19.0+e.latest.tar.gz
+change nom de dossier code surce
+mv odoo19 src 
+---------------------------------
+----------- Config fichier conf-----
+sudo nano /etc/odoo19.conf
+contenu 
+ [options]
+ ; This is the password that allows database operations:
+ ; admin_passwd = admin
+ db_host = localhost
+ db_port = 5432
+ db_user = odoo19
+ db_password = 123456
+ addons_path = /opt/odoo19/src/addons
+ logfile = /var/log/odoo/odoo19.log
 
-- file conf
+commande de configue fichier 
 sudo chown odoo19: /etc/odoo19.conf
 sudo chmod 640 /etc/odoo19.conf
+-------------------------------------------------
+----------- Create a Log Directory -----------
+sudo mkdir /var/log/odoo
+sudo chown odoo19:root /var/log/odoo
+sudo touch /var/log/odoo/odoo19.log
 
-File service 19:
+----------------------File service 19 -----------:
+sudo nano /etc/systemd/system/odoo19.service
+contenu
 [Unit]
 Description=odoo19
 [Service]
@@ -31,3 +79,6 @@ ExecStart=/opt/odoo19/odoo19-venv/bin/python3 /opt/odoo19/odoo19/odoo-bin -c /et
 StandardOutput=journal+console
 [Install]
 WantedBy=multi-user.target
+--- Commande exceute fichier service ----:
+sudo systemctl daemon-reload
+sudo systemctl enable --now odoo19
