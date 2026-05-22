@@ -37,6 +37,8 @@ sudo apt install xfonts-75dpi xfonts-base
 -----------Create a System User for Odoo-----------
 sudo useradd -m -U -r -d /opt/odoo19 -s /bin/bash odoo19
 ---------------------------------
+-- Community ----
+git clone -b 18.0 https://github.com/odoo/odoo.git
 --- Code source entrprise -----
 tar -xzvf odoo_19.0+e.latest.tar.gz
 change nom de dossier code surce
