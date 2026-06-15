@@ -21,7 +21,29 @@
       sudo ntfslabel /dev/sdc1 BKP_USB
    4. Si votre clé est en EXT4 (Format 100% Linux) :
       sudo e2label /dev/sdc1  BKP_USB
+   5. ajouter chemin :
+      
    
 
 6. Creer scipte :
 sudo nano /usr/local/bin/backup_to_usb.sh
+file execute :
+sudo chmod +x /usr/local/bin/backup_to_usb.sh
+7. crontab 
+   sudo crontab -e
+   choisissez option nano (1)
+   05 : 00 chaque jour
+   0 5 * * * /usr/local/bin/backup_to_usb.sh
+   La syntaxe 0 5 * * * se lit de gauche à droite :
+
+   0 : À la minute 0.
+   
+   5 : À la 5ème heure (donc 5h00 du matin).
+   
+   * : Tous les jours du mois.
+   
+   * : Tous les mois de l'année.
+   
+   * : Tous les jours de la semaine.
+   
+   /usr/local/bin/backup_to_usb.sh : Le chemin absolu vers votre fichier à exécuter.
