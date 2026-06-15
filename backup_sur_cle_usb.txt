@@ -1,1 +1,27 @@
+1. Lister disque :
+   lsblk
+2. Créez un dossier qui servira de point d'accès :
+   sudo mkdir -p /media/usb
+3. Montez la partition sdc1 dans ce dossier :
+   sudo mount /dev/sdc1 /media/usb
+4. Voir contenu :
+   ls -la /media/usb
+5. Demonter(ejecter)
+   sudo umount /media/usb 2>/dev/null
 
+5. Voir contenu :
+    ls 
+    trouve rien
+7. Renomer une partition sdc1 : 
+   1. Pour connaître le type de système de fichiers:
+      lsblk -f
+   2. Si votre clé est en FAT32 (Le plus probable pour une clé USB) :
+       sudo fatlabel /dev/sdc1 BKP_USB
+   3. Si votre clé est en NTFS (Format Windows pour les gros fichiers) :
+      sudo ntfslabel /dev/sdc1 BKP_USB
+   4. Si votre clé est en EXT4 (Format 100% Linux) :
+      sudo e2label /dev/sdc1  BKP_USB
+   
+
+6. Creer scipte :
+sudo nano /usr/local/bin/backup_to_usb.sh
