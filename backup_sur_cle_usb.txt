@@ -22,7 +22,7 @@
    4. Si votre clé est en EXT4 (Format 100% Linux) :
       sudo e2label /dev/sdc1  BKP_USB
    5. ajouter chemin :
-      
+      /dev/disk/by-label/BKP_USB
    
 
 6. Creer scipte :
