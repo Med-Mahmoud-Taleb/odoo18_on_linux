@@ -26,9 +26,9 @@
    
 
 6. Creer scipte :
-sudo nano /usr/local/bin/backup_to_usb.sh
-file execute :
-sudo chmod +x /usr/local/bin/backup_to_usb.sh
+   sudo nano /usr/local/bin/backup_to_usb.sh
+   file execute :
+   sudo chmod +x /usr/local/bin/backup_to_usb.sh
 7. crontab 
    sudo crontab -e
    choisissez option nano (1)
