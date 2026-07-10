@@ -1,3 +1,7 @@
+
+sudo nginx -t
+sudo ln -sf /etc/nginx/sites-available/odoo.conf /etc/nginx/sites-enabled/odoo.conf
+
 upstream odoo {
 server 127.0.0.1:8069;
 }
