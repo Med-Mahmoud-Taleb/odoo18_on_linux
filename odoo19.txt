@@ -56,6 +56,7 @@ contenu
  db_password = 123456
  addons_path = /opt/odoo19/src/addons
  logfile = /var/log/odoo/odoo19.log
+ proxy_mode = True
 
 commande de configue fichier 
 sudo chown odoo19: /etc/odoo19.conf
