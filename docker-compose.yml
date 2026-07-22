@@ -1,0 +1,14 @@
+version: '3'
+services:
+  odoo:
+    container_name: dock_odoo18E
+    image: odoo18-e:1.0
+    env_file: .env
+    ports:
+      - "8018:8069"
+    volumes:
+      - ./container/lib_odoo:/var/lib/odoo
+      - ./container/config/odoo.conf:/etc/odoo.conf
+      - /Users/macbookpro/Documents/odoo/dev_odoo18/TCC-DEV2:/mnt/extra-addons
+#      #- /Users/macbookpro/Documents/odoo/dev_odoo18/my_addons:/mnt/my_addons
+#      # - /Users/macbookpro/Documents/odoo/dev_odoo18/Bonprix:/mnt/extra-addons
