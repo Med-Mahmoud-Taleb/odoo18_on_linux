@@ -38,6 +38,34 @@ Autoriser tout le réseau local
 host    all    all    192.168.1.0/24    scram-sha-256
 Autoriser toutes les IP (déconseillé)
 host    all    all    0.0.0.0/0    scram-sha-256
+
+L'erreur est très explicite : PostgreSQL refuse la connexion car aucune règle pg_hba.conf n'autorise cette combinaison.
+
+Le serveur est :
+
+PostgreSQL : 192.168.100.202
+Client : 192.168.100.193
+Utilisateur : odoo
+Base : postgres
+
+L'erreur :
+
+FATAL: no pg_hba.conf entry for host "192.168.100.193",
+user "odoo",
+database "postgres"
+
+signifie qu'il manque une ligne dans pg_hba.conf.
+
+1. Modifier pg_hba.conf
+
+Sur le serveur PostgreSQL (192.168.100.202), ajoute par exemple :
+
+host    postgres    odoo    192.168.100.193/32    scram-sha-256
+host    all         odoo    192.168.100.193/32    scram-sha-256
+
+Ou, si tu souhaites autoriser tout le réseau :
+
+host    all    odoo    192.168.100.0/24    scram-sha-256
 3. Donner les droits à l'utilisateur
 
 Connecte-toi à PostgreSQL :
