@@ -1,0 +1,94 @@
+Pour autoriser un accès PostgreSQL depuis une machine distante, il faut modifier deux fichiers :
+
+postgresql.conf (écouter les connexions externes)
+pg_hba.conf (autoriser les adresses IP)
+
+1. Modifier postgresql.conf
+
+Trouve le fichier :
+
+sudo find /etc -name postgresql.conf
+
+Exemple :
+
+/etc/postgresql/16/main/postgresql.conf
+
+Modifie cette ligne :
+
+listen_addresses = '*'
+
+Ou pour limiter à une IP spécifique :
+
+listen_addresses = '192.168.1.100'
+2. Modifier pg_hba.conf
+
+Trouve le fichier :
+
+sudo find /etc -name pg_hba.conf
+
+Ajoute à la fin :
+
+Autoriser une seule machine
+host    all    all    192.168.1.50/32    scram-sha-256
+
+ou si tu utilises un ancien mot de passe :
+
+host    all    all    192.168.1.50/32    md5
+Autoriser tout le réseau local
+host    all    all    192.168.1.0/24    scram-sha-256
+Autoriser toutes les IP (déconseillé)
+host    all    all    0.0.0.0/0    scram-sha-256
+3. Donner les droits à l'utilisateur
+
+Connecte-toi à PostgreSQL :
+
+sudo -u postgres psql
+
+Créer un utilisateur :
+
+CREATE USER odoo WITH PASSWORD 'password';
+
+Donner tous les droits sur une base :
+
+GRANT ALL PRIVILEGES ON DATABASE prod_gpc_nktt TO odoo;
+
+Ou rendre l'utilisateur capable de créer/supprimer des bases (utile pour les restaurations automatiques) :
+
+ALTER USER odoo CREATEDB;
+
+Si tu souhaites également créer des rôles :
+
+ALTER USER odoo CREATEROLE;
+
+Pour un accès administrateur complet (à utiliser avec prudence) :
+
+ALTER USER odoo WITH SUPERUSER;
+4. Ouvrir le port 5432
+
+Si ufw est utilisé :
+
+sudo ufw allow 5432/tcp
+
+Vérifier :
+
+sudo ufw status
+5. Redémarrer PostgreSQL
+sudo systemctl restart postgresql
+6. Tester depuis une machine distante
+psql \
+    -h 192.168.1.100 \
+    -U odoo \
+    -d postgres
+Vérification
+
+Sur le serveur PostgreSQL :
+
+ss -lnt | grep 5432
+
+Tu dois voir quelque chose comme :
+
+LISTEN 0 244 0.0.0.0:5432
+
+ou
+
+LISTEN 0 244 *:5432
